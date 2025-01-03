@@ -1,0 +1,17 @@
+FROM node:16-bullseye
+
+WORKDIR /app
+
+COPY CHANGELOG.md /CHANGELOG.md
+
+COPY .git /app/.git
+
+COPY client/package*.json ./ 
+
+RUN npm install
+
+COPY client/ .
+
+EXPOSE 9000
+
+CMD ["npm", "run", "start"]

@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: poinz-server-service
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client 
+    container_name: poinz-client
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+    depends_on:
+      - server
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_data:

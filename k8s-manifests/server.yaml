@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poinz-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poinz-server
+  template:
+    metadata:
+      labels:
+        app: poinz-server
+    spec:
+      containers:
+        - name: poinz-server
+          image: woixi/poinz:server  
+          ports:
+            - containerPort: 3000  
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: MONGO_URI
+              value: "mongodb://mongo-service:27017/questionnaire" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poinz-server-service
+spec:
+  selector:
+    app: poinz-server
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

@@ -87,29 +87,31 @@ module.exports = {
     // enables support for HTML5 urls ( http://host:port/context/ROOM instead of http://host:port/context/#ROOM)
     // during dev serving
     historyApiFallback: true,
-
+  
     static: {
       directory: path.join(__dirname)
     },
     compress: true,
     port: 9000,
-
+  
     devMiddleware: {
       index: true,
       publicPath: '/assets/'
     },
-
+  
     // proxy request to the rest api (our server does not send CORS headers intentionally)
     proxy: {
       '/api/*': {
-        target: 'http://localhost:3000',
+        target: 'http://poinz-server-service:3000',
         secure: false
       },
       '/socket.io/*': {
-        target: 'http://localhost:3000',
+        target: 'http://poinz-server-service:3000',
         secure: false
       }
-    }
+    },
+  
+    allowedHosts: 'all',
   }
 };
 

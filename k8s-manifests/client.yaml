@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poinz-client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poinz-client
+  template:
+    metadata:
+      labels:
+        app: poinz-client
+    spec:
+      containers:
+        - name: poinz-client
+          image: woixi/poinz:client
+          ports:
+            - containerPort: 9000  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poinz-client-service
+spec:
+  selector:
+    app: poinz-client
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
