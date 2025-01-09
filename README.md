@@ -26,11 +26,15 @@ docker ps -a
 ```
 helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
 ```
+```
+Добавляем в hosts poinz.local
+```
 2. Применяем манифесты последовательно
 ```
-kubectl apply -f your-repository/mongodb.yaml
-kubectl apply -f your-repository/client.yaml
-kubectl apply -f your-repository/server.yaml
+kubectl apply -f poinz/k8s-manifests/mongodb.yaml
+kubectl apply -f poinz/k8s-manifests/client.yaml
+kubectl apply -f poinz/k8s-manifests/server.yaml
+kubectl apply -f poinz/k8s-manifests/nginx-ingress
 ```
 3. Проверяем что все контейнеры запущены и находятся в статусе running kubectl get pods, так же проверям srv kubectl get srv
 4. В случае если все плохо и статусы показывают иной вариант событий рекомендуется сделать kubectl rollout restart deployment
@@ -38,7 +42,7 @@ kubectl apply -f your-repository/server.yaml
 kubectl rollout restart deployment poinz-server-deployment
 kubectl rollout restart deployment poinz-client-deployment
 ```
-Делаем port forward
+Делаем port forward для локального тестирования
 ```
 kubectl port-forward service/poinz-server-service 3000:3000
 kubectl port-forward service/poinz-client-service 9000:9000
@@ -58,14 +62,14 @@ kubectl config use-context minikube
 ```
 4. Применяем наши манифесты:
 ```
-kubectl apply -f your-repository/mongodb.yaml
-kubectl apply -f your-repository/client.yaml
-kubectl apply -f your-repository/server.yaml
-kubectl apply -f your-repository/ingress.yaml
+kubectl apply -f poinz/k8s-manifests/mongodb.yaml
+kubectl apply -f poinz/k8s-manifests/client.yaml
+kubectl apply -f poinz/k8s-manifests/server.yaml
+kubectl apply -f poinz/k8s-manifests/nginx-ingress.yaml
 ```
 Делаем port forward
 ```
 kubectl port-forward service/poinz-server-service 3000:3000
 kubectl port-forward service/poinz-client-service 9000:9000
 ```
->>>>>>> c54c328c208ee62f7948856ad30b7d4c1cee63d0
+>>>>>>> 
